@@ -25,13 +25,19 @@ function initializeResponses(client) {
         if (message.content === commands[0]) {
             db.collection('messages').find({
                 userId: message.author.id
-            }).toArray(async (error, messages) => {
+            }).toArray((error, messages) => {
                 if (error) {
                     console.log(error);
                 } else {
                     message.channel.send(transformMessages(messages));
                 }
             });
+        }
+    }
+
+    this.commandsAreNICE = async function(message) {
+        if (message.content.includes(commands)) {
+            reactNICE(message);
         }
     }
 
@@ -52,6 +58,15 @@ function transformMessages(messages) {
     response += '\n\nTHAT\'S IT !\nTHANKS <3'
 
     return response;
+}
+
+function reactNICE(message) {
+    Promise.all([
+        message.react('🇳'),
+        message.react('🇮'),
+        message.react('🇨'),
+        message.react('🇪')
+    ]).catch(() => console.log('Oh no ! It\s not NICE !'));
 }
 
 exports.initializeResponses = initializeResponses;

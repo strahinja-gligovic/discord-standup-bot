@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const Responses = require('./responses.js');
+const { response } = require('express');
 
 function initializeDiscordBot() {
     const client = new Discord.Client();
@@ -10,6 +11,7 @@ function initializeDiscordBot() {
         client.on('message', message => responses.mentionReply(message));
         client.on('message', message => responses.insertLineForUser(message));
         client.on('message', message => responses.getLinesForUser(message));
+        client.on('message', message => responses.commandsAreNICE(message));
     }
 
     initializeMessageListeners();
