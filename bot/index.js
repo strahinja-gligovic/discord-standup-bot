@@ -6,15 +6,13 @@ function initializeDiscordBot() {
     const client = new Discord.Client();
     const responses = Responses.initializeResponses(client);
 
+    client.on('message', message => {
+        responses.mentionReply(message);
+        responses.insertLineForUser(message);
+        responses.getLinesForUser(message);
+        responses.commandsAreNICE(message);
+    });
 
-    function initializeMessageListeners() {
-        client.on('message', message => responses.mentionReply(message));
-        client.on('message', message => responses.insertLineForUser(message));
-        client.on('message', message => responses.getLinesForUser(message));
-        client.on('message', message => responses.commandsAreNICE(message));
-    }
-
-    initializeMessageListeners();
     client.on('ready', () => {
         console.log(`Logged in as ${client.user.tag}!`);
     });

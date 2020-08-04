@@ -12,7 +12,7 @@ function initializeResponses(client) {
     }
 
     this.insertLineForUser = async function (message) {
-        if (!commands.includes(message.content)) {
+        if (!commands.includes(message.content) && message.channel.type === 'dm') {
             db.collection('messages').insertOne({
                 userId: message.author.id,
                 name: message.author.username,
@@ -35,7 +35,7 @@ function initializeResponses(client) {
         }
     }
 
-    this.commandsAreNICE = async function(message) {
+    this.commandsAreNICE = async function (message) {
         if (message.content.includes(commands)) {
             reactNICE(message);
         }
@@ -47,15 +47,19 @@ function initializeResponses(client) {
 function transformMessages(messages) {
     var response;
 
-    response = 'HERE IS YOUR CHAT HISTORY WITH THE BOT: \n\n'
+    if (messages.length > 0) {
+        response = `HI <@${messages[0].userId}>, HERE IS YOUR CHAT HISTORY WITH THE BOT: \n\n`
 
-    for (let index = 0; index < messages.length; index++) {
-        const message = messages[index];
-        response += message.text;
-        if (index < messages.length - 1) response += '\n'
+        for (let index = 0; index < messages.length; index++) {
+            const message = messages[index];
+            response += message.text;
+            if (index < messages.length - 1) response += '\n'
+        }
+
+        response += '\n\nTHAT\'S IT !\nTHANKS <3'
+    } else {
+        response = 'WE NEVER TALK ANYMORE :(';
     }
-
-    response += '\n\nTHAT\'S IT !\nTHANKS <3'
 
     return response;
 }
