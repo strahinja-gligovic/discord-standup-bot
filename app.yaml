@@ -3,7 +3,7 @@ runtime: nodejs12 # or nodejs10
 instance_class: F2
 
 env_variables:
-  BUCKET_NAME: "example-gcs-bucket"
+  MONGODB_URL: "mongodb://34.65.94.199:27017"
 
 handlers:
 - url: /stylesheets

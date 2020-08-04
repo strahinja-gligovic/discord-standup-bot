@@ -8,9 +8,9 @@ function initializeDiscordBot() {
 
     function initializeMessageListeners() {
         client.on('message', message => responses.mentionReply(message));
+        client.on('message', message => responses.insertLineForUser(message));
+        client.on('message', message => responses.getLinesForUser(message));
     }
-
-
 
     initializeMessageListeners();
     client.on('ready', () => {
